@@ -19,6 +19,7 @@
   font-style: normal;
   font-size: 72px;
   padding-top: 150px;
+  width: 100%;
 }
 
 .logo {
