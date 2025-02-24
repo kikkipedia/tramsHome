@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
 <RouterView />
 <footer>
-  <a href="github.com/kikkipedia">GitHub</a>
+  <a href="https://github.com/kikkipedia" target="_blank"><img src="./components/icons/github-brands-solid.svg" width="30px" alt="github" color="white"> </a>
 </footer>
 </template>
 
