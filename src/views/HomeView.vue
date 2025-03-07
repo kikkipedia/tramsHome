@@ -1,71 +1,106 @@
-<script setup lang="ts">
-</script>
-
 <template>
-    <div class="logo">
-      TRAMS AB
-    </div>
-    <div class="flux">
-      Årets sommarspel börjar snart!
-    </div>
+    <div class="header">
+    <span class="fixed-text logo">TRAMS AB </span><br/>
+    <span class="fixed-text">{{ todaysDate }} {{ shortZone }} {{ webTime }}</span>
+    <marquee class ="marquee" behavior="scroll" direction="left">
+      Årets sommarspel är under uppbyggnad & kommer i vår
+    </marquee>
+    <span class="fixed-text">For we have not yet played our last card &#128270</span>
+  </div>
+  <div class="image">
+    <img src="@/assets/map.png" alt="Map of the world" class="map"/>
+  </div>
 </template>
+
+<script setup lang="ts">
+import { onMounted, ref, onUnmounted } from 'vue'
+
+const todaysDate = ref(new Date().toDateString()) 
+const webTime = ref(new Date().toLocaleTimeString())
+const shortZone = ref('')
+
+// Function to update the time every second
+const updateTime = () => {
+  webTime.value = new Date().toLocaleTimeString()
+}
+
+// Get the short timezone on mount
+const getShortZone = () => {
+  const timeZonePart = new Intl.DateTimeFormat('en', { timeZoneName: 'short' })
+    .formatToParts(new Date())
+    .find(part => part.type === 'timeZoneName');
+  
+  shortZone.value = timeZonePart ? timeZonePart.value : ''
+}
+
+// Start ticking time when component mounts
+let intervalId: number | null = null;
+onMounted(() => {
+  getShortZone(); // Set timezone once
+  intervalId = setInterval(updateTime, 1000) as unknown as number; // Update time every second
+})
+
+// Clean up interval when component unmounts
+onUnmounted(() => {
+  if (intervalId !== null) clearInterval(intervalId);
+})
+</script>
  
 <style scoped>
-.logo {
-  max-height: 100vh;
-  font-family: "Tilt Prism", serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-size: 72px;
-  padding-top: 150px;
+.header {
+  display: block;
+  width: 75%;
+  background-color: #e7e7e7;
+  background-image: url("data:image/svg+xml;utf8,<svg width='2' height='2' viewBox='0 0 2 2' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='1' cy='1' r='0.85' fill='black' /></svg>");
+  font-family: 'VT323', monospace;
+  font-size: 20px;
+  text-transform: uppercase;
+  padding: 10px;
+  overflow: hidden;
+  border: 7px solid black;
+  padding: 10px;
+  color: #e7e7e7
+}
+
+/* Fixed text stays in place */
+.fixed-text {
+  flex-shrink: 0;
+  margin-right: 20px;
+  color: #e7e7e7;
+}
+
+/* Rolling text animation */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
   width: 100%;
 }
 
-.logo {
-  color: #FB4264;
-  font-size: 9vw;
-  line-height: 9vw;
-  text-shadow: 0 0 3vw #F40A35;
-  animation: neon 2s ease infinite;
-  -moz-animation: neon 2s ease infinite;
-  -webkit-animation: neon 2s ease infinite;
-}
-
-@keyframes neon {
-  0%,
-  100% {
-    text-shadow: 0 0 1vw #FA1C16, 0 0 3vw #FA1C16, 0 0 10vw #FA1C16, 0 0 10vw #FA1C16, 0 0 .4vw #FED128, .5vw .5vw .1vw #806914;
-    color: #FED128;
+@keyframes marquee {
+  from {
+    transform: translateX(100%);
   }
-  50% {
-    text-shadow: 0 0 .5vw #800E0B, 0 0 1.5vw #800E0B, 0 0 5vw #800E0B, 0 0 5vw #800E0B, 0 0 .2vw #800E0B, .5vw .5vw .1vw #40340A;
-    color: #806914;
+  to {
+    transform: translateX(-100%);
   }
 }
 
-.flux {
-  font-family: "Chakra Petch", serif;
-  font-weight: 300;
-  padding-top: 50px;
-  font-size: 18px;
-  line-height: 36px;
-  animation: flux 5s linear infinite;
-  -moz-animation: flux 5s linear infinite;
-  -webkit-animation: flux 5s linear infinite;
-  -o-animation: flux 5s linear infinite;
+.marquee span {
+  display: inline-block;
+  padding-right: 50px;
+  animation: marquee 5s linear infinite;
 }
 
-@keyframes flux {
-  0%,
-  100% {
-    text-shadow: 0 0 1vw #1041FF, 0 0 3vw #1041FF, 0 0 10vw #1041FF, 0 0 10vw #1041FF, 0 0 .4vw #8BFDFE, .5vw .5vw .1vw #147280;
-    color: #28D7FE;
-  }
-  50% {
-    text-shadow: 0 0 .5vw #082180, 0 0 1.5vw #082180, 0 0 5vw #082180, 0 0 5vw #082180, 0 0 .2vw #082180, .5vw .5vw .1vw #0A3940;
-    color: #146C80;
-  }
+.map {
+  width: 200px;
 }
 
+.image {
+  margin-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 </style>
+ 
