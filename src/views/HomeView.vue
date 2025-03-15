@@ -1,23 +1,45 @@
 <template>
-    <div class="header">
-    <span class="fixed-text logo">TRAMS AB </span><br/>
-    <span class="fixed-text">{{ todaysDate }} {{ shortZone }} {{ webTime }}</span>
-    <marquee class ="marquee" behavior="scroll" direction="left">
-      Årets sommarspel är under uppbyggnad & kommer i vår
-    </marquee>
-    <span class="fixed-text">For we have not yet played our last card &#128270</span>
-  </div>
+    <div class="container">
+      <div class="header">
+        <span class="fixed-text trams-green">TRAMS AB </span>
+        <span class="fixed-text">{{ todaysDate }} {{ shortZone }} {{ webTime }}</span>
+        <div class="marquee-container">
+          <div class="marquee">
+            <span>Årets sommarspel är under uppbyggnad & kommer åter i vår</span>
+          </div>
+        </div>
+        <span class="fixed-text">For we have not yet played our last card &#128270</span>
+      </div>
+      <div class="logo">
+        TRAMS AB
+      </div>
+    </div>
   <div class="image">
-    <img src="@/assets/map.png" alt="Map of the world" class="map"/>
+    <img src="@/assets/map.png" alt="Map of the world" class="map blink_img"/>
   </div>
+
+  <div class="blinking" v-if="!isOpenReg">
+    <p class="trams-green">Would you like to play the game? (Y/N)</p>
+    <p class="trams-green">&gt;<span class="blink trams-green">_ (Y) useradd </span>
+      
+      <span class="pink-box" @click="openReg">registrera</span></p>
+    <div id="interlaced"></div>  
+    <div id="glare"></div>
+    
+</div>
+<div v-else class="openReg">
+      <Register v-if="isOpenReg"> </Register>
+</div>
 </template>
 
 <script setup lang="ts">
+import Register from '@/components/Register.vue'
 import { onMounted, ref, onUnmounted } from 'vue'
 
 const todaysDate = ref(new Date().toDateString()) 
 const webTime = ref(new Date().toLocaleTimeString())
 const shortZone = ref('')
+const isOpenReg = ref(false)
 
 // Function to update the time every second
 const updateTime = () => {
@@ -44,63 +66,208 @@ onMounted(() => {
 onUnmounted(() => {
   if (intervalId !== null) clearInterval(intervalId);
 })
+
+const openReg = () => {
+  isOpenReg.value = true
+}
 </script>
  
 <style scoped>
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  padding-top: 50px;
+  flex-wrap: wrap;
+}
 .header {
-  display: block;
-  width: 75%;
+  max-width: 80%;
   background-color: #e7e7e7;
   background-image: url("data:image/svg+xml;utf8,<svg width='2' height='2' viewBox='0 0 2 2' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='1' cy='1' r='0.85' fill='black' /></svg>");
   font-family: 'VT323', monospace;
-  font-size: 20px;
+  font-size: 4vw;
   text-transform: uppercase;
-  padding: 10px;
+  padding: 4px;
   overflow: hidden;
-  border: 7px solid black;
-  padding: 10px;
-  color: #e7e7e7
+  border: 5px solid black;
+  color: #e7e7e7;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 80%;
 }
 
-/* Fixed text stays in place */
+.logo {
+  border: 4px solid black;
+  max-width: 15%;
+  color: black;
+  font-size: 28px;
+  font-family: 'Saira', sans-serif;
+  writing-mode: vertical-rl;
+  background-color: #e7e7e7;
+  font-weight: bold;
+  padding: 5px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex: 0 1 15%;
+}
+
 .fixed-text {
-  flex-shrink: 0;
-  margin-right: 20px;
   color: #e7e7e7;
 }
 
-/* Rolling text animation */
-.marquee {
-  display: flex;
-  overflow: hidden;
-  white-space: nowrap;
+.marquee-container {
   width: 100%;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+}
+
+.marquee {
+  display: inline-block;
+  padding-left: 100%;
+  
+  animation: marquee 10s steps(30) infinite;
 }
 
 @keyframes marquee {
-  from {
-    transform: translateX(100%);
+  0% {
+    transform: translateX(0);
   }
-  to {
+  100% {
     transform: translateX(-100%);
   }
 }
 
-.marquee span {
-  display: inline-block;
-  padding-right: 50px;
-  animation: marquee 5s linear infinite;
+#overlay {
+  width: 100%;
 }
 
 .map {
-  width: 200px;
-}
-
-.image {
-  margin-top: 20px;
-  width: 100%;
+  max-width: 100%;
   display: flex;
   justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 30px;
+}
+.image {
+  max-width: 35%;
+  display: flex;
+  justify-content: center;
+}
+
+.blink_img {
+  animation: blinker 2s linear infinite;
+}
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+
+.pink-box {
+  background-color: #ffbdff;
+  color: #6900FF;
+  font-size: 16px;
+  font-family: 'Saira', sans-serif;
+  width: 100%;
+  text-align: center;
+  margin-left: 10px;
+  padding: 3px;
+}
+
+/* on hover - make border */
+.pink-box:hover {
+  border: 3px solid #6900FF;
+  cursor: pointer;
+}
+
+.blinking {
+  width: 90%;
+  margin-top: 20px;
+}
+
+p {
+  font-family: 'incosolata', monospace;
+  font-size: 18px;
+  background-color: black;
+  padding: 10px;
+}
+
+#glare {
+    position: fixed;
+    height: 150px;
+    z-index: -1; /* ensure the effect doesn't cover the text */
+    background: radial-gradient(hsl(154 5% 15%) 0%, hsl(154 50% 5%) 70%);
+  }
+
+  @keyframes lines {
+    0% {background-position: 0px 0px}
+    50% {background-position: 0px 0px}
+    51% {background-position: 0px 2px}
+    100% {background-position: 0px 2px}
+  }
+
+  #interlaced {
+    position: fixed;
+    background: repeating-linear-gradient(transparent 0px 1px, hsl(154 0% 0%/.3) 3px 4px);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    pointer-events: none;
+    animation: lines 0.066666666s linear infinite;
+  }
+
+  @keyframes blink {
+    0% {opacity: 0}
+    30% {opacity: 1}
+    70% {opacity: 1}
+    100% {opacity: 0}
+  }
+
+  .blink {
+    animation: blink 0.4s linear infinite;
+  }
+
+  .openReg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+  }
+
+
+  @media (max-width: 350px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 400px) {
+  .logo {
+    font-size: 20px;
+  }
+  .bliing {
+    width: 100%;
+  }
+}
 }
 </style>
  
