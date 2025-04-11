@@ -1,24 +1,25 @@
 <template>
     <div class="container">
+      <div class="images shadow">
+        <img src="@/assets/tramsAb.jpg" alt="Logo" class="logo"/>
+        <img src="@/assets/map.png" alt="map" class="map"/>
+      </div>
       <div class="header">
-        <span class="fixed-text trams-green">TRAMS AB </span>
+        <!-- <span class="fixed-text trams-green">TRAMS AB </span> -->
         <span class="fixed-text">{{ todaysDate }} {{ shortZone }} {{ webTime }}</span>
         <div class="marquee-container">
           <div class="marquee">
-            <span>Årets sommarspel är under uppbyggnad & kommer åter i vår</span>
+            <span>Årets sommarspel börjar i maj</span>
           </div>
         </div>
-        <span class="fixed-text">For we have not yet played our last card &#128270</span>
       </div>
-      <div class="logo">
-        TRAMS AB
-      </div>
+      
     </div>
-  <div class="image">
-    <img src="@/assets/map.png" alt="Map of the world" class="map blink_img"/>
-  </div>
+<!--   <div class="image">
+    <img src="@/assets/map.png" alt="Map of the world" class="map "/>
+  </div> -->
 
-  <div class="blinking" v-if="!isOpenReg">
+<!--   <div class="blinking" v-if="!isOpenReg">
     <p class="trams-green">Would you like to play the game? (Y/N)</p>
     <p class="trams-green">&gt;<span class="blink trams-green">_ (Y) useradd </span>
       
@@ -29,7 +30,7 @@
 </div>
 <div v-else class="openReg">
       <Register v-if="isOpenReg"> </Register>
-</div>
+</div> -->
 </template>
 
 <script setup lang="ts">
@@ -67,9 +68,6 @@ onUnmounted(() => {
   if (intervalId !== null) clearInterval(intervalId);
 })
 
-const openReg = () => {
-  isOpenReg.value = true
-}
 </script>
  
 <style scoped>
@@ -83,36 +81,30 @@ const openReg = () => {
   flex-wrap: wrap;
 }
 .header {
-  max-width: 80%;
+  width: 100%;
   background-color: #e7e7e7;
   background-image: url("data:image/svg+xml;utf8,<svg width='2' height='2' viewBox='0 0 2 2' fill='none' xmlns='http://www.w3.org/2000/svg'><circle cx='1' cy='1' r='0.85' fill='black' /></svg>");
   font-family: 'VT323', monospace;
-  font-size: 4vw;
+  font-size: 6vw;
   text-transform: uppercase;
   padding: 4px;
   overflow: hidden;
   border: 5px solid black;
   color: #e7e7e7;
-  margin-right: 10px;
   display: flex;
   flex-direction: column;
   flex: 1 1 80%;
+  box-shadow: #ffbdff;
 }
 
-.logo {
-  border: 4px solid black;
-  max-width: 15%;
-  color: black;
-  font-size: 28px;
-  font-family: 'Saira', sans-serif;
-  writing-mode: vertical-rl;
-  background-color: #e7e7e7;
-  font-weight: bold;
-  padding: 5px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  flex: 0 1 15%;
+.shadow  {
+    transition: box-shadow .1s ease-in-out;
+    transition-behavior: normal;
+    transition-duration: 0.1s;
+    transition-timing-function: ease-in-out;
+    transition-delay: 0s;
+    transition-property: box-shadow;
+    box-shadow: 0 2px 15px rgba(0,0,0, .25);
 }
 
 .fixed-text {
@@ -121,7 +113,6 @@ const openReg = () => {
 
 .marquee-container {
   width: 100%;
-  overflow: hidden;
   position: relative;
   white-space: nowrap;
 }
@@ -129,7 +120,6 @@ const openReg = () => {
 .marquee {
   display: inline-block;
   padding-left: 100%;
-  
   animation: marquee 10s steps(30) infinite;
 }
 
@@ -143,15 +133,28 @@ const openReg = () => {
 }
 
 #overlay {
-  width: 100%;
+  width: 80%;
 }
 
-.map {
+.logo {
+  max-width: 75%;
+  display: flex;
+  justify-content: center;
+  
+}
+.images {
   max-width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 30px;
+  border: 5px solid #6900FF;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: white;
+}
+
+.map {
+  max-width: 25%;
+  padding: 5px;
 }
 .image {
   max-width: 35%;
@@ -240,34 +243,5 @@ p {
     width: 100%;
   }
 
-
-  @media (max-width: 350px) {
-  .container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .header {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
-
-  .logo {
-    display: none;
-  }
-
-  .header {
-    margin-bottom: 20px;
-  }
-
-  @media (max-width: 400px) {
-  .logo {
-    font-size: 20px;
-  }
-  .bliing {
-    width: 100%;
-  }
-}
-}
 </style>
  
