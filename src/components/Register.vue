@@ -132,17 +132,6 @@ p {
   border: 3px solid black;
   box-shadow: .5rem .5rem 0 black;
   
-  &--inverted {
-    --color-background: var(--color-dark);
-    color: var(--color-light);
-    --color-shadow: var(--color-accent);
-  }
-  
-  &--accent {
-    --color-background: var(--color-signal);
-    --color-accent: var(--color-light);
-    color: var(--color-dark);
-  }
   
   *:first-child {
     margin-top: 0;

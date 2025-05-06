@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import HomeView from '@/views/HomeView.vue'
 </script>
 
 <template>
-<RouterView />
+<HomeView />
 <footer>
   <a href="https://github.com/kikkipedia" target="_blank">CODE</a>
 </footer>

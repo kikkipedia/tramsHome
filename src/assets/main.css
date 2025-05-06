@@ -8,7 +8,7 @@ body {
   max-width: 100%;
 }
 #app {
-  width: 100%;
+  width: 100vw;
   font-weight: normal;
   margin: 0 auto;
   align-items: center;
