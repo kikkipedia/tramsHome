@@ -1,12 +1,21 @@
 @import './base.css';
-
+body {
+  background-color: #9c9c9c;
+  background-image: url('@/assets/background.svg');
+  background-size: 10px 10px;
+  background-repeat: repeat;
+  background-position: -1px -1px;
+  max-width: 100%;
+}
 #app {
-  width: 100%;
+  width: 100vw;
   font-weight: normal;
-  display: block;
-  text-align: center;
   margin: 0 auto;
-
+  align-items: center;
+  padding-top: 50px;
+  display: grid;
+  justify-items: center;
+  padding: 5px;
 }
 
 a,
@@ -30,7 +39,7 @@ a,
   }
 
   #app {
-    display: grid;
+
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
